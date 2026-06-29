@@ -142,43 +142,11 @@ function renderKeepLists() {
 function openApp(appKey) {
   const pkg = data.packages[appKey];
 
-  // App-only launch: do NOT fall back to the webpage.
-  // If Fully's JavaScript interface is disabled, this will show a message instead of opening Ring/Google/SmartThings web.
-  try {
-    if (window.Android && pkg && typeof Android.openApplication === "function") {
-      Android.openApplication(pkg);
-      return;
-    }
-  } catch (e) {
-    console.log("Android.openApplication failed", e);
-  }
+  if (!pkg) return;
 
-  try {
-    if (window.fully && pkg && typeof fully.startApplication === "function") {
-      fully.startApplication(pkg);
-      return;
-    }
-  } catch (e) {
-    console.log("fully.startApplication failed", e);
-  }
-
-  try {
-    if (window.fully && pkg && typeof fully.startApplicationByPackageName === "function") {
-      fully.startApplicationByPackageName(pkg);
-      return;
-    }
-  } catch (e) {
-    console.log("fully.startApplicationByPackageName failed", e);
-  }
-
-  try {
-    window.location.href = `intent://#Intent;package=${pkg};end`;
-    return;
-  } catch (e) {
-    console.log("intent launch failed", e);
-  }
-
-  alert(`Could not open the app. In Fully Kiosk, enable JavaScript Interface / Android Interface, then try again.\n\nPackage: ${pkg}`);
+  // Free Fully Kiosk cannot use the Plus JavaScript Interface, so use Android intent launcher links.
+  // This is the strongest no-cost method available from a static webpage.
+  window.location.href = `intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkg};end`;
 }
 
 function escapeHtml(text) {

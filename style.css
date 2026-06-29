@@ -402,3 +402,30 @@ input {
 .card-footer {
   bottom: 9px;
 }
+
+
+/* v44 direct Android app intent links */
+a.control-tile {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.app-link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.control-card .card-footer,
+.control-card .control-list,
+.control-card .app-badge,
+.control-card .section-label,
+.control-card h2 {
+  position: relative;
+  z-index: 3;
+}
+
+.control-card .app-link-overlay + * {
+  position: relative;
+}
