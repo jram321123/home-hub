@@ -1,11 +1,19 @@
-# Home Hub v44 Direct Intent Links
+# Home Hub v50 Stable
 
-This version removes JavaScript-interface dependencies for the Ring/SmartThings/Google Home cards and uses direct Android launcher intent links in the HTML.
+Stability-focused release.
 
-Important Fully setting:
+## Keeps
+- Current dashboard layout
+- Google Calendar embed support
+- Calendar fit/scaling improvements
+- Google Keep shared list launcher
+
+## App launch behavior
+- Google Home and SmartThings are restored to their prior intent-based approach.
+- Ring is isolated so future Ring changes do not break Google Home or SmartThings.
+- A Debug button is added under Settings to show which launch method is available.
+
+## Required Fully Kiosk Free setting
 - Web Content Settings -> Open Other URL Schemes = ON
 
-Ring package:
-- com.ringapp
-
-If Fully Kiosk still refuses to launch the app from this URL, that is a limitation of the free browser environment. The next no-cost workaround is to place Ring/SmartThings/Google Home app shortcuts next to the dashboard using Android home screen/taskbar behavior, or use a native Android wrapper/app.
+Note: Fully's JavaScript Interface is a paid/Plus feature, so this version does not rely on it.

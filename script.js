@@ -140,13 +140,72 @@ function renderKeepLists() {
 }
 
 function openApp(appKey) {
-  const pkg = data.packages[appKey];
+  const pkg = data.packages?.[appKey];
+  const method = getLaunchMethod(appKey);
 
-  if (!pkg) return;
+  // Known good routes are kept separate so one app cannot break the others.
+  // SmartThings and Google Home use the browser intent route that worked earlier.
+  // Ring is isolated and tries Ring-specific options before the generic package launch.
+  const launchers = {
+    ring: [
+      "intent://ring.com/dashboard#Intent;scheme=https;package=com.ringapp;end",
+      "intent://#Intent;package=com.ringapp;end",
+      "ring://"
+    ],
+    smartthings: [
+      "intent://#Intent;package=com.samsung.android.oneconnect;scheme=smartthings;end",
+      "intent://#Intent;package=com.samsung.android.oneconnect;end"
+    ],
+    googlehome: [
+      "intent://#Intent;package=com.google.android.apps.chromecast.app;scheme=googlehome;end",
+      "intent://#Intent;package=com.google.android.apps.chromecast.app;end"
+    ],
+    calendar: [
+      "intent://#Intent;package=com.google.android.calendar;end",
+      data.fallbacks?.calendar || data.links?.calendarWeb || "https://calendar.google.com/calendar/u/0/r"
+    ],
+    keep: [
+      "intent://#Intent;package=com.google.android.keep;end",
+      data.fallbacks?.keep || data.links?.keepWeb || "https://keep.google.com/"
+    ]
+  };
 
-  // Free Fully Kiosk cannot use the Plus JavaScript Interface, so use Android intent launcher links.
-  // This is the strongest no-cost method available from a static webpage.
-  window.location.href = `intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkg};end`;
+  logLaunch(appKey, method, pkg);
+
+  if (method === "androidInterface" && window.Android && typeof Android.openApplication === "function" && pkg) {
+    try { Android.openApplication(pkg); return; } catch (e) { console.log(e); }
+  }
+
+  if (method === "fullyInterface" && window.fully && typeof fully.startApplication === "function" && pkg) {
+    try { fully.startApplication(pkg); return; } catch (e) { console.log(e); }
+  }
+
+  const urls = launchers[appKey] || (pkg ? [`intent://#Intent;package=${pkg};end`] : []);
+  if (!urls.length) return;
+
+  // Use the first URL only. Multiple automatic attempts often cause web fallbacks.
+  window.location.href = urls[0];
+}
+
+function getLaunchMethod(appKey) {
+  if (window.Android && typeof Android.openApplication === "function") return "androidInterface";
+  if (window.fully && typeof fully.startApplication === "function") return "fullyInterface";
+  return "intent";
+}
+
+function logLaunch(appKey, method, pkg) {
+  try {
+    const logs = JSON.parse(localStorage.getItem("homeHubLaunchLogs") || "[]");
+    logs.unshift({
+      time: new Date().toLocaleTimeString(),
+      appKey,
+      method,
+      pkg,
+      hasAndroid: !!window.Android,
+      hasFully: !!window.fully
+    });
+    localStorage.setItem("homeHubLaunchLogs", JSON.stringify(logs.slice(0, 12)));
+  } catch {}
 }
 
 function escapeHtml(text) {
@@ -204,6 +263,30 @@ document.getElementById("saveSettings").addEventListener("click", event => {
   render();
   document.getElementById("settings").close();
 });
+
+
+const debugButton = document.getElementById("showDebug");
+if (debugButton) {
+  debugButton.addEventListener("click", () => {
+    const logs = JSON.parse(localStorage.getItem("homeHubLaunchLogs") || "[]");
+    const info = {
+      userAgent: navigator.userAgent,
+      hasAndroidInterface: !!window.Android,
+      hasAndroidOpenApplication: !!(window.Android && typeof Android.openApplication === "function"),
+      hasFullyInterface: !!window.fully,
+      hasFullyStartApplication: !!(window.fully && typeof fully.startApplication === "function"),
+      launchMethodNow: {
+        ring: getLaunchMethod("ring"),
+        smartthings: getLaunchMethod("smartthings"),
+        googlehome: getLaunchMethod("googlehome")
+      },
+      packages: data.packages,
+      recentLaunches: logs
+    };
+    document.getElementById("debugText").textContent = JSON.stringify(info, null, 2);
+    document.getElementById("debugModal").showModal();
+  });
+}
 
 updateClock();
 setInterval(updateClock, 1000 * 15);

@@ -67,41 +67,38 @@
         <div class="card-footer">Tap a list to open Keep</div>
       </article>
 
-      <article class="card control-card ring">
-        <a class="app-link-overlay" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.ringapp;end"></a>
+      <article class="card control-card ring" data-app="ring">
         <div class="app-badge">🔔</div>
         <span class="section-label">Security</span>
         <h2>Ring</h2>
         <div class="control-list">
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.ringapp;end">🛡️ <span>Alarm</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.ringapp;end">🔒 <span>Lock + Thermostat</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.ringapp;end">📹 <span>Cameras</span></a>
+          <button class="control-tile" data-app="ring">🛡️ <span>Alarm</span></button>
+          <button class="control-tile" data-app="ring">🔒 <span>Lock + Thermostat</span></button>
+          <button class="control-tile" data-app="ring">📹 <span>Cameras</span></button>
         </div>
         <div class="card-footer">Tap to open Ring app</div>
       </article>
 
-      <article class="card control-card smartthings">
-        <a class="app-link-overlay" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.oneconnect;end"></a>
+      <article class="card control-card smartthings" data-app="smartthings">
         <div class="app-badge">📱</div>
         <span class="section-label">Smart Home</span>
         <h2>SmartThings</h2>
         <div class="control-list">
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.oneconnect;end">🌡️ <span>Thermostat</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.oneconnect;end">🔒 <span>Door Lock</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.samsung.android.oneconnect;end">⚙️ <span>Scenes</span></a>
+          <button class="control-tile" data-app="smartthings">🌡️ <span>Thermostat</span></button>
+          <button class="control-tile" data-app="smartthings">🔒 <span>Door Lock</span></button>
+          <button class="control-tile" data-app="smartthings">⚙️ <span>Scenes</span></button>
         </div>
         <div class="card-footer">Tap to open SmartThings app</div>
       </article>
 
-      <article class="card control-card google-home">
-        <a class="app-link-overlay" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.google.android.apps.chromecast.app;end"></a>
+      <article class="card control-card google-home" data-app="googlehome">
         <div class="app-badge">🏠</div>
         <span class="section-label">Home Control</span>
         <h2>Google Home</h2>
         <div class="control-list">
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.google.android.apps.chromecast.app;end">💡 <span>Lights</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.google.android.apps.chromecast.app;end">🎵 <span>Speakers</span></a>
-          <a class="control-tile" href="intent://launch#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.google.android.apps.chromecast.app;end">▶️ <span>Routines</span></a>
+          <button class="control-tile" data-app="googlehome">💡 <span>Lights</span></button>
+          <button class="control-tile" data-app="googlehome">🎵 <span>Speakers</span></button>
+          <button class="control-tile" data-app="googlehome">▶️ <span>Routines</span></button>
         </div>
         <div class="card-footer">Tap to open Google Home app</div>
       </article>
@@ -138,8 +135,22 @@
       <label>Default Google Keep URL<input id="keepWebUrl" /></label>
 
       <div class="modal-actions">
+        <button type="button" id="showDebug" class="secondary">Debug</button>
         <button value="cancel" class="secondary">Cancel</button>
         <button id="saveSettings" value="default" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="debugModal" class="modal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <h3>Debug</h3>
+        <button class="icon-btn" value="cancel">✕</button>
+      </div>
+      <pre id="debugText" class="debug-text"></pre>
+      <div class="modal-actions">
+        <button value="cancel" class="primary">Close</button>
       </div>
     </form>
   </dialog>
