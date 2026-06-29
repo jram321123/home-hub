@@ -18,38 +18,41 @@
       <section class="quick-status">
         <div class="status-pill">
           <span>Calendar</span>
-          <strong>Family View</strong>
+          <strong>Live Embed</strong>
         </div>
         <div class="status-pill">
-          <span>Mode</span>
-          <strong>Home</strong>
+          <span>Display</span>
+          <strong>Wall Mode</strong>
         </div>
         <button id="settingsBtn" class="settings-btn" aria-label="Settings">⚙</button>
       </section>
     </header>
 
     <section class="dashboard-grid">
-      <article class="card week-card" data-open="calendar">
+      <article class="card week-card">
         <div class="card-title-row">
           <div>
             <span class="section-label">Google Calendar</span>
             <h1>This Week</h1>
           </div>
-          <button class="small-action" data-edit="week">Edit</button>
+          <button class="small-action" data-app="calendar">Open</button>
         </div>
-        <div id="weekList" class="week-strip"></div>
+        <div id="calendarEmbedContainer" class="calendar-embed-container">
+          <div class="calendar-connect-message">Tap ⚙ and paste your Google Calendar embed URL to show your real calendar here.</div>
+        </div>
       </article>
 
-      <article class="card today-card" data-open="calendar">
+      <article class="card today-card">
         <div class="card-title-row">
           <div>
             <span class="section-label">Today</span>
             <h2>Agenda</h2>
           </div>
-          <button class="small-action" data-edit="today">Edit</button>
+          <button class="small-action" data-app="calendar">Open</button>
         </div>
-        <ul id="todayList" class="agenda-list"></ul>
-        <div class="card-footer">Tap to open Google Calendar</div>
+        <div id="todayEmbedContainer" class="today-embed-container">
+          <div class="calendar-connect-message">Today view appears after calendar embed is added.</div>
+        </div>
       </article>
 
       <article class="card lists-card" id="sharedListsCard">
@@ -64,28 +67,40 @@
         <div class="card-footer">Tap a list to open Keep</div>
       </article>
 
-      <article class="card control-card ring" data-open="ring">
+      <article class="card control-card ring" data-app="ring">
         <div class="app-badge">🔔</div>
         <span class="section-label">Security</span>
         <h2>Ring</h2>
-        <div id="ringContent" class="control-list"></div>
-        <div class="card-footer">Tap to open Ring</div>
+        <div class="control-list">
+          <button class="control-tile" data-app="ring">🛡️ <span>Alarm</span></button>
+          <button class="control-tile" data-app="ring">🔒 <span>Lock + Thermostat</span></button>
+          <button class="control-tile" data-app="ring">📹 <span>Cameras</span></button>
+        </div>
+        <div class="card-footer">Tap to open Ring app</div>
       </article>
 
-      <article class="card control-card smartthings" data-open="smartthings">
+      <article class="card control-card smartthings" data-app="smartthings">
         <div class="app-badge">📱</div>
         <span class="section-label">Smart Home</span>
         <h2>SmartThings</h2>
-        <div id="smartthingsContent" class="control-list"></div>
-        <div class="card-footer">Tap to open SmartThings</div>
+        <div class="control-list">
+          <button class="control-tile" data-app="smartthings">🌡️ <span>Thermostat</span></button>
+          <button class="control-tile" data-app="smartthings">🔒 <span>Door Lock</span></button>
+          <button class="control-tile" data-app="smartthings">⚙️ <span>Scenes</span></button>
+        </div>
+        <div class="card-footer">Tap to open SmartThings app</div>
       </article>
 
-      <article class="card control-card google-home" data-open="home">
+      <article class="card control-card google-home" data-app="googlehome">
         <div class="app-badge">🏠</div>
         <span class="section-label">Home Control</span>
         <h2>Google Home</h2>
-        <div id="homeContent" class="control-list"></div>
-        <div class="card-footer">Tap to open Google Home</div>
+        <div class="control-list">
+          <button class="control-tile" data-app="googlehome">💡 <span>Lights</span></button>
+          <button class="control-tile" data-app="googlehome">🎵 <span>Speakers</span></button>
+          <button class="control-tile" data-app="googlehome">▶️ <span>Routines</span></button>
+        </div>
+        <div class="card-footer">Tap to open Google Home app</div>
       </article>
     </section>
   </main>
@@ -96,7 +111,7 @@
         <h3 id="editorTitle">Edit</h3>
         <button class="icon-btn" value="cancel">✕</button>
       </div>
-      <p class="modal-help">For Shared Lists, use: emoji | list title | Google Keep link. One item per line.</p>
+      <p class="modal-help">For Shared Lists, use: emoji | list title | Google Keep link. One list per line.</p>
       <textarea id="editorText"></textarea>
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
@@ -108,21 +123,20 @@
   <dialog id="settings" class="modal">
     <form method="dialog" class="modal-card">
       <div class="modal-head">
-        <h3>Dashboard Links</h3>
+        <h3>Dashboard Settings</h3>
         <button class="icon-btn" value="cancel">✕</button>
       </div>
-      <p class="modal-help">These can be app intent links or web links. The defaults are set to open the Android apps where possible.</p>
+      <p class="modal-help">
+        Paste your Google Calendar embed URL/code. App buttons use Fully Kiosk's JavaScript interface first, then Android intent fallbacks.
+      </p>
 
-      <label>Google Calendar URL<input id="linkCalendar" /></label>
-      <label>Google Calendar iCal URL for live events<input id="calendarIcsUrl" placeholder="Paste Paste Secret address in iCal format here — required for real events" /></label>
-      <label>Default Google Keep URL<input id="linkGrocery" /></label>
-      <label>Ring URL<input id="linkRing" /></label>
-      <label>SmartThings URL<input id="linkSmartthings" /></label>
-      <label>Google Home URL<input id="linkHome" /></label>
+      <label>Google Calendar Embed URL or iframe code<input id="calendarEmbedUrl" placeholder="Paste Google Calendar embed URL/code here" /></label>
+      <label>Google Calendar Web URL<input id="calendarWebUrl" /></label>
+      <label>Default Google Keep URL<input id="keepWebUrl" /></label>
 
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
-        <button id="saveSettings" value="default" class="primary">Save Links</button>
+        <button id="saveSettings" value="default" class="primary">Save</button>
       </div>
     </form>
   </dialog>

@@ -1,17 +1,33 @@
-# Hogan Home Hub v3.0 Real Calendar
+# Hogan Home Hub v40
 
-This version is built to show your **actual Google Calendar** on the dashboard.
+This version includes all requested current features:
 
-## Setup
-1. Upload/replace `index.html`, `style.css`, and `script.js`.
-2. Open the dashboard on the tablet.
-3. Tap the gear.
-4. Paste your Google Calendar **Secret address in iCal format**.
-5. Save.
+- Premium dark dashboard
+- Actual Google Calendar display via Google Calendar embed
+- Today agenda via Google Calendar agenda embed
+- Google Keep shared list launcher
+- Ring app launcher
+- SmartThings app launcher
+- Google Home app launcher
+- Fully Kiosk JavaScript app launch support first, Android intent fallback second
 
-The iCal URL is saved only in the tablet browser storage, not in GitHub.
+## Fully Kiosk settings needed
 
-## Notes
-- The dashboard refreshes calendar data every 15 minutes.
-- It supports all-day events, timed events, and common recurring events.
-- If no iCal URL is added, placeholders appear only as a setup fallback.
+Turn on:
+- Web Content Settings -> Enable JavaScript
+- Web Content Settings -> JavaScript Interface
+- Web Content Settings -> Open Other URL Schemes
+
+If available, also allow:
+- Launch Apps / Start Other Apps
+
+## Calendar setup
+
+Tap the gear and paste your Google Calendar embed URL or full iframe embed code.
+
+## Shared Lists format
+
+emoji | list title | Google Keep link
+
+Example:
+🛒 | Grocery List | https://keep.google.com/
