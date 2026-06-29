@@ -4,11 +4,6 @@ const DEFAULT_DATA = {
     "12:00 PM | Lunch / reset",
     "6:00 PM | Family dinner"
   ],
-  weather: [
-    "78° Mostly clear",
-    "High 82° / Low 64°",
-    "Rain chance 20%"
-  ],
   week: [
     "Mon | Trash prep",
     "Tue | Grocery check",
@@ -18,10 +13,10 @@ const DEFAULT_DATA = {
     "Sat | Errands",
     "Sun | Plan week"
   ],
-  todo: [
-    "Return library books",
-    "Schedule dentist",
-    "Water plants"
+  ring: [
+    "Front Door",
+    "Open Ring app for live view",
+    "Motion alerts show in Ring"
   ],
   grocery: [
     "Milk",
@@ -29,17 +24,24 @@ const DEFAULT_DATA = {
     "Bread",
     "Fruit"
   ],
+  smartthings: [
+    "💡 | Lights | Controls",
+    "🌡️ | Thermostat | Temp",
+    "🚪 | Locks | Status",
+    "🚗 | Garage | Door"
+  ],
   home: [
     "Lights",
-    "Camera",
-    "Garage",
+    "Cameras",
+    "Speakers",
+    "Routines",
     "Thermostat"
   ],
   links: {
     calendar: "https://calendar.google.com/calendar/u/0/r",
     keepGrocery: "https://keep.google.com/",
-    keepTodo: "https://keep.google.com/",
-    weather: "https://www.google.com/search?q=weather+Plain+City+Ohio",
+    ring: "https://ring.com/account/dashboard",
+    smartthings: "https://my.smartthings.com/",
     home: "https://home.google.com/"
   }
 };
@@ -88,10 +90,10 @@ function updateClock() {
 
 function render() {
   renderToday();
-  renderWeather();
   renderWeek();
-  renderChecklist("todoList", data.todo);
+  renderRing();
   renderChecklist("groceryList", data.grocery);
+  renderSmartThings();
   renderHome();
 }
 
@@ -104,13 +106,6 @@ function renderToday() {
     li.innerHTML = `<span class="when">${escapeHtml(time.trim())}</span><span>${escapeHtml(rest.join("|").trim() || time.trim())}</span>`;
     list.appendChild(li);
   });
-}
-
-function renderWeather() {
-  const box = document.getElementById("weatherContent");
-  const [main = "Weather", ...rest] = data.weather;
-  box.innerHTML = `<div class="weather-main">${escapeHtml(main)}</div>` + 
-    rest.map(x => `<div class="weather-detail">${escapeHtml(x)}</div>`).join("");
 }
 
 function renderWeek() {
@@ -154,6 +149,32 @@ function renderChecklist(id, items) {
   });
 }
 
+function renderRing() {
+  const box = document.getElementById("ringContent");
+  const [device = "Front Door", action = "Open Ring app for live view", note = "Motion alerts show in Ring"] = data.ring || [];
+  box.innerHTML = `
+    <div class="ring-status"><span class="ring-dot"></span><strong>${escapeHtml(device)}</strong></div>
+    <div>${escapeHtml(action)}</div>
+    <div class="ring-note">${escapeHtml(note)}</div>
+  `;
+}
+
+function renderSmartThings() {
+  const box = document.getElementById("smartthingsContent");
+  box.innerHTML = "";
+  (data.smartthings || []).slice(0, 4).forEach(item => {
+    const [icon = "⚙️", name = "Device", sub = "Open"] = item.split("|").map(x => x.trim());
+    const div = document.createElement("div");
+    div.className = "smartthings-mini-tile";
+    div.innerHTML = `
+      <div class="smartthings-mini-icon">${escapeHtml(icon)}</div>
+      <div class="smartthings-mini-name">${escapeHtml(name)}</div>
+      <div class="smartthings-mini-sub">${escapeHtml(sub)}</div>
+    `;
+    box.appendChild(div);
+  });
+}
+
 function renderHome() {
   const box = document.getElementById("homeContent");
   box.innerHTML = data.home.map(item => `<div class="home-chip">${escapeHtml(item)}</div>`).join("");
@@ -179,11 +200,11 @@ document.querySelectorAll(".edit-btn").forEach(btn => {
     editingKey = btn.dataset.edit;
     const titles = {
       today: "Edit Today",
-      weather: "Edit Weather",
       week: "Edit This Week",
-      todo: "Edit Family To-Do",
+      ring: "Edit Ring Card",
       grocery: "Edit Grocery List",
-      home: "Edit Home Controls"
+      smartthings: "Edit SmartThings",
+      home: "Edit Google Home"
     };
     document.getElementById("editorTitle").textContent = titles[editingKey] || "Edit";
     document.getElementById("editorText").value = (data[editingKey] || []).join("\n");
@@ -206,8 +227,8 @@ document.getElementById("saveEdit").addEventListener("click", event => {
 document.getElementById("settingsBtn").addEventListener("click", () => {
   document.getElementById("linkCalendar").value = data.links.calendar || "";
   document.getElementById("linkGrocery").value = data.links.keepGrocery || "";
-  document.getElementById("linkTodo").value = data.links.keepTodo || "";
-  document.getElementById("linkWeather").value = data.links.weather || "";
+  document.getElementById("linkRing").value = data.links.ring || "";
+  document.getElementById("linkSmartthings").value = data.links.smartthings || "";
   document.getElementById("linkHome").value = data.links.home || "";
   document.getElementById("settings").showModal();
 });
@@ -216,8 +237,8 @@ document.getElementById("saveSettings").addEventListener("click", event => {
   event.preventDefault();
   data.links.calendar = document.getElementById("linkCalendar").value.trim();
   data.links.keepGrocery = document.getElementById("linkGrocery").value.trim();
-  data.links.keepTodo = document.getElementById("linkTodo").value.trim();
-  data.links.weather = document.getElementById("linkWeather").value.trim();
+  data.links.ring = document.getElementById("linkRing").value.trim();
+  data.links.smartthings = document.getElementById("linkSmartthings").value.trim();
   data.links.home = document.getElementById("linkHome").value.trim();
   saveData();
   document.getElementById("settings").close();

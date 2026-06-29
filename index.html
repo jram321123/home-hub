@@ -36,18 +36,6 @@
         <div class="tap-hint">Tap card to open Google Calendar</div>
       </article>
 
-      <article class="card" data-open="weather">
-        <div class="card-head">
-          <div>
-            <span class="eyebrow">Weather</span>
-            <h2>Plain City / Dublin</h2>
-          </div>
-          <button class="edit-btn" data-edit="weather">Edit</button>
-        </div>
-        <div id="weatherContent" class="weather"></div>
-        <div class="tap-hint">Tap card for weather</div>
-      </article>
-
       <article class="card card-large" data-open="calendar">
         <div class="card-head">
           <div>
@@ -60,16 +48,16 @@
         <div class="tap-hint">Tap card to open Google Calendar</div>
       </article>
 
-      <article class="card" data-open="keepTodo">
+      <article class="card" data-open="ring">
         <div class="card-head">
           <div>
-            <span class="eyebrow">Shared List</span>
-            <h2>Family To-Do</h2>
+            <span class="eyebrow">Security</span>
+            <h2>Ring</h2>
           </div>
-          <button class="edit-btn" data-edit="todo">Edit</button>
+          <button class="edit-btn" data-edit="ring">Edit</button>
         </div>
-        <ul id="todoList" class="check-list"></ul>
-        <div class="tap-hint">Tap card to open Google Keep</div>
+        <div id="ringContent" class="ring-panel"></div>
+        <div class="tap-hint">Tap card to open Ring</div>
       </article>
 
       <article class="card" data-open="keepGrocery">
@@ -84,11 +72,23 @@
         <div class="tap-hint">Tap card to open Google Keep</div>
       </article>
 
+      <article class="card" data-open="smartthings">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Smart Home</span>
+            <h2>SmartThings</h2>
+          </div>
+          <button class="edit-btn" data-edit="smartthings">Edit</button>
+        </div>
+        <div id="smartthingsContent" class="smartthings-mini"></div>
+        <div class="tap-hint">Tap card to open SmartThings</div>
+      </article>
+
       <article class="card" data-open="home">
         <div class="card-head">
           <div>
-            <span class="eyebrow">Future</span>
-            <h2>Home Controls</h2>
+            <span class="eyebrow">Home Control</span>
+            <h2>Google Home</h2>
           </div>
           <button class="edit-btn" data-edit="home">Edit</button>
         </div>
@@ -122,9 +122,9 @@
       <p class="modal-help">Optional: paste your exact Google Calendar, Keep note, or Google Home web links here.</p>
       <label>Google Calendar URL<input id="linkCalendar" /></label>
       <label>Grocery Keep URL<input id="linkGrocery" /></label>
-      <label>Family To-Do Keep URL<input id="linkTodo" /></label>
-      <label>Weather URL<input id="linkWeather" /></label>
-      <label>Home Controls URL<input id="linkHome" /></label>
+      <label>Ring URL<input id="linkRing" /></label>
+      <label>SmartThings URL<input id="linkSmartthings" /></label>
+      <label>Google Home URL<input id="linkHome" /></label>
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
         <button id="saveSettings" value="default" class="primary">Save Links</button>
