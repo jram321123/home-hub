@@ -469,3 +469,65 @@ input {
 .grid > article:nth-child(4) { grid-column: 1 / 2; grid-row: 3 / 4; }
 .grid > article:nth-child(5) { grid-column: 3 / 4; grid-row: 1 / 2; }
 .grid > article:nth-child(6) { grid-column: 2 / 4; grid-row: 3 / 4; }
+
+
+/* v9 layout: This Week calendar spans the full top */
+.grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1.15fr .95fr .95fr;
+}
+
+/* Card order:
+   1 Today
+   2 This Week
+   3 Ring
+   4 Grocery
+   5 SmartThings
+   6 Google Home
+*/
+.grid > article:nth-child(2) { grid-column: 1 / 4; grid-row: 1 / 2; }
+.grid > article:nth-child(1) { grid-column: 1 / 2; grid-row: 2 / 3; }
+.grid > article:nth-child(3) { grid-column: 2 / 3; grid-row: 2 / 3; }
+.grid > article:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; }
+.grid > article:nth-child(4) { grid-column: 1 / 2; grid-row: 3 / 4; }
+.grid > article:nth-child(6) { grid-column: 2 / 4; grid-row: 3 / 4; }
+
+/* Bigger weekly calendar for wall-viewing */
+.grid > article:nth-child(2) .week {
+  height: calc(100% - 64px);
+  gap: 14px;
+}
+
+.grid > article:nth-child(2) .day {
+  padding: 14px;
+  border-radius: 22px;
+}
+
+.grid > article:nth-child(2) .day-name {
+  font-size: clamp(16px, 1.3vw, 22px);
+}
+
+.grid > article:nth-child(2) .day-num {
+  font-size: clamp(34px, 2.8vw, 50px);
+  margin-bottom: 8px;
+}
+
+.grid > article:nth-child(2) .day-event {
+  font-size: clamp(18px, 1.55vw, 26px);
+  padding: 9px 10px;
+  margin-top: 8px;
+}
+
+/* Make middle app cards slightly more compact */
+.grid > article:nth-child(1) .list,
+.grid > article:nth-child(4) .check-list {
+  font-size: clamp(18px, 1.55vw, 24px);
+}
+
+.smartthings-mini {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#homeContent.home-controls {
+  grid-template-columns: repeat(2, 1fr);
+}
