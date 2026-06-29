@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Home Hub</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Hogan Home Hub</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,55 +11,127 @@
     <header class="topbar">
       <section>
         <div id="time" class="time">--:--</div>
-        <div id="date" class="date">Loading date...</div>
+        <div id="date" class="date">Loading...</div>
       </section>
-      <section class="weather-summary">
-        <div class="weather-icon">☁️</div>
+      <section class="brand">
+        <div class="house">⌂</div>
         <div>
-          <div id="temp" class="temp">--°</div>
-          <div id="condition" class="condition">Weather</div>
+          <div class="title">Hogan Home Hub</div>
+          <div class="subtitle">Family dashboard</div>
         </div>
       </section>
+      <button class="settings-btn" id="settingsBtn" aria-label="Settings">⚙</button>
     </header>
 
     <section class="grid">
-      <article class="card card-large">
-        <h2>Today</h2>
-        <ul id="todayList" class="list"></ul>
-      </article>
-
-      <article class="card">
-        <h2>Weather</h2>
-        <div id="weatherDetails" class="details"></div>
-      </article>
-
-      <article class="card card-large">
-        <h2>This Week</h2>
-        <div id="weekList" class="week"></div>
-      </article>
-
-      <article class="card">
-        <h2>Family To‑Do</h2>
-        <ul id="todoList" class="checklist"></ul>
-      </article>
-
-      <article class="card">
-        <h2>Grocery List</h2>
-        <ul id="groceryList" class="checklist"></ul>
-      </article>
-
-      <article class="card">
-        <h2>Home Controls</h2>
-        <div class="home-controls">
-          <button>Lights</button>
-          <button>Garage</button>
-          <button>Thermostat</button>
-          <button>Cameras</button>
+      <article class="card card-large" data-open="calendar">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Calendar</span>
+            <h2>Today</h2>
+          </div>
+          <button class="edit-btn" data-edit="today">Edit</button>
         </div>
-        <p class="muted">Future smart home area</p>
+        <ul id="todayList" class="list"></ul>
+        <div class="tap-hint">Tap card to open Google Calendar</div>
+      </article>
+
+      <article class="card" data-open="weather">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Weather</span>
+            <h2>Plain City / Dublin</h2>
+          </div>
+          <button class="edit-btn" data-edit="weather">Edit</button>
+        </div>
+        <div id="weatherContent" class="weather"></div>
+        <div class="tap-hint">Tap card for weather</div>
+      </article>
+
+      <article class="card card-large" data-open="calendar">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Calendar</span>
+            <h2>This Week</h2>
+          </div>
+          <button class="edit-btn" data-edit="week">Edit</button>
+        </div>
+        <div id="weekList" class="week"></div>
+        <div class="tap-hint">Tap card to open Google Calendar</div>
+      </article>
+
+      <article class="card" data-open="keepTodo">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Shared List</span>
+            <h2>Family To-Do</h2>
+          </div>
+          <button class="edit-btn" data-edit="todo">Edit</button>
+        </div>
+        <ul id="todoList" class="check-list"></ul>
+        <div class="tap-hint">Tap card to open Google Keep</div>
+      </article>
+
+      <article class="card" data-open="keepGrocery">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Shared List</span>
+            <h2>Grocery List</h2>
+          </div>
+          <button class="edit-btn" data-edit="grocery">Edit</button>
+        </div>
+        <ul id="groceryList" class="check-list"></ul>
+        <div class="tap-hint">Tap card to open Google Keep</div>
+      </article>
+
+      <article class="card" data-open="home">
+        <div class="card-head">
+          <div>
+            <span class="eyebrow">Future</span>
+            <h2>Home Controls</h2>
+          </div>
+          <button class="edit-btn" data-edit="home">Edit</button>
+        </div>
+        <div id="homeContent" class="home-controls"></div>
+        <div class="tap-hint">Tap card to open Google Home</div>
       </article>
     </section>
   </main>
+
+  <dialog id="editor" class="modal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <h3 id="editorTitle">Edit</h3>
+        <button class="icon-btn" value="cancel">✕</button>
+      </div>
+      <p class="modal-help">One item per line. Changes save on this tablet/dashboard.</p>
+      <textarea id="editorText"></textarea>
+      <div class="modal-actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="saveEdit" value="default" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settings" class="modal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <h3>App Links</h3>
+        <button class="icon-btn" value="cancel">✕</button>
+      </div>
+      <p class="modal-help">Optional: paste your exact Google Calendar, Keep note, or Google Home web links here.</p>
+      <label>Google Calendar URL<input id="linkCalendar" /></label>
+      <label>Grocery Keep URL<input id="linkGrocery" /></label>
+      <label>Family To-Do Keep URL<input id="linkTodo" /></label>
+      <label>Weather URL<input id="linkWeather" /></label>
+      <label>Home Controls URL<input id="linkHome" /></label>
+      <div class="modal-actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="saveSettings" value="default" class="primary">Save Links</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="script.js"></script>
 </body>
 </html>
