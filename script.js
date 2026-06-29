@@ -14,9 +14,9 @@ const DEFAULT_DATA = {
     "Sun | Plan week"
   ],
   ring: [
-    "Front Door",
-    "Open Ring app for live view",
-    "Motion alerts show in Ring"
+    "Alarm: Home",
+    "Lock + Thermostat in Ring app",
+    "Tap to open Ring"
   ],
   grocery: [
     "Milk",
@@ -30,17 +30,16 @@ const DEFAULT_DATA = {
     "Water plants"
   ],
   smartthings: [
+    "🌡️ | Thermostat | Devices",
+    "🔒 | Door Lock | Status",
     "💡 | Lights | Controls",
-    "🌡️ | Thermostat | Temp",
-    "🚪 | Locks | Status",
-    "🚗 | Garage | Door"
+    "⚙️ | Scenes | Routines"
   ],
   home: [
-    "Lights",
-    "Cameras",
-    "Speakers",
-    "Routines",
-    "Thermostat"
+    "💡 Lights",
+    "🎵 Speakers",
+    "▶️ Routines",
+    "🏠 Rooms"
   ],
   csv: {
     grocery: "",
@@ -49,9 +48,9 @@ const DEFAULT_DATA = {
   links: {
     calendar: "https://calendar.google.com/calendar/u/0/r",
     keepGrocery: "https://keep.google.com/",
-    ring: "https://ring.com/account/dashboard",
-    smartthings: "https://my.smartthings.com/",
-    home: "https://home.google.com/"
+    ring: "intent://#Intent;package=com.ringapp;scheme=ring;end",
+    smartthings: "intent://#Intent;package=com.samsung.android.oneconnect;scheme=smartthings;end",
+    home: "intent://#Intent;package=com.google.android.apps.chromecast.app;scheme=googlehome;end"
   }
 };
 
@@ -186,11 +185,11 @@ function renderChecklist(id, items) {
 
 function renderRing() {
   const box = document.getElementById("ringContent");
-  const [device = "Front Door", action = "Open Ring app for live view", note = "Motion alerts show in Ring"] = data.ring || [];
+  const [status = "Alarm: Home", devices = "Lock + Thermostat", note = "Tap to open Ring"] = data.ring || [];
   box.innerHTML = `
-    <div class="ring-status"><span class="ring-dot"></span><strong>${escapeHtml(device)}</strong></div>
-    <div>${escapeHtml(action)}</div>
-    <div class="ring-note">${escapeHtml(note)}</div>
+    <div class="control-tile"><span class="control-icon">🛡️</span><span>${escapeHtml(status)}</span></div>
+    <div class="control-tile"><span class="control-icon">🔒</span><span>${escapeHtml(devices)}</span></div>
+    <div class="control-sub">${escapeHtml(note)}</div>
   `;
 }
 

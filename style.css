@@ -635,3 +635,62 @@ input {
   font-size: 22px;
   line-height: 1.35;
 }
+
+
+/* v12 app launcher polish */
+.grid > article:nth-child(3),
+.grid > article:nth-child(5),
+.grid > article:nth-child(6) {
+  display: flex;
+  flex-direction: column;
+}
+
+.control-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.075);
+  font-size: clamp(17px, 1.35vw, 23px);
+  font-weight: 800;
+}
+
+.control-icon {
+  font-size: 1.2em;
+}
+
+.control-sub {
+  color: var(--muted);
+  font-size: clamp(15px, 1.05vw, 18px);
+  line-height: 1.25;
+}
+
+.ring-panel,
+.smartthings-mini,
+#homeContent.home-controls {
+  margin-top: 2px;
+}
+
+.smartthings-mini-tile,
+#homeContent .home-chip {
+  min-height: 54px;
+  padding: 12px 14px;
+  border-radius: 16px;
+}
+
+.smartthings-mini-icon {
+  font-size: 24px;
+  margin-bottom: 2px;
+}
+
+.smartthings-mini-name,
+#homeContent .home-chip {
+  font-size: clamp(17px, 1.35vw, 23px);
+}
+
+.smartthings-mini-sub {
+  font-size: 13px;
+}

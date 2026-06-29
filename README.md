@@ -1,3 +1,3 @@
-# Home Hub v11
+# Home Hub v12
 
-Shared Lists now works as a Google Keep list launcher. Add list titles and Keep links in the Edit button using: emoji | title | link.
+Polishes Ring, SmartThings, and Google Home as app launcher/status cards. Defaults use Android intent links to open installed apps from Fully Kiosk.
