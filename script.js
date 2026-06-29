@@ -141,10 +141,9 @@ function renderKeepLists() {
 
 function openApp(appKey) {
   const pkg = data.packages[appKey];
-  const fallback = data.fallbacks[appKey];
 
-  // Fully Kiosk's documented JavaScript interface uses Android.openApplication(packageName).
-  // This is the most reliable way to launch installed Android apps from Fully Kiosk.
+  // App-only launch: do NOT fall back to the webpage.
+  // If Fully's JavaScript interface is disabled, this will show a message instead of opening Ring/Google/SmartThings web.
   try {
     if (window.Android && pkg && typeof Android.openApplication === "function") {
       Android.openApplication(pkg);
@@ -154,7 +153,6 @@ function openApp(appKey) {
     console.log("Android.openApplication failed", e);
   }
 
-  // Some other kiosk/browser variants expose fully.startApplication.
   try {
     if (window.fully && pkg && typeof fully.startApplication === "function") {
       fully.startApplication(pkg);
@@ -173,18 +171,14 @@ function openApp(appKey) {
     console.log("fully.startApplicationByPackageName failed", e);
   }
 
-  // Android app intent fallback. If the app cannot be opened by the browser, use the web fallback.
-  if (pkg) {
-    try {
-      const fallbackEncoded = encodeURIComponent(fallback || "");
-      window.location.href = `intent://#Intent;package=${pkg};S.browser_fallback_url=${fallbackEncoded};end`;
-      return;
-    } catch (e) {
-      console.log("intent fallback failed", e);
-    }
+  try {
+    window.location.href = `intent://#Intent;package=${pkg};end`;
+    return;
+  } catch (e) {
+    console.log("intent launch failed", e);
   }
 
-  if (fallback) window.location.href = fallback;
+  alert(`Could not open the app. In Fully Kiosk, enable JavaScript Interface / Android Interface, then try again.\n\nPackage: ${pkg}`);
 }
 
 function escapeHtml(text) {
