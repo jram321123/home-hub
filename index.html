@@ -7,93 +7,85 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="dashboard">
-    <header class="topbar">
+  <main class="app-shell">
+    <header class="hero">
       <section>
+        <div class="kicker">Hogan Home Hub</div>
         <div id="time" class="time">--:--</div>
         <div id="date" class="date">Loading...</div>
       </section>
-      <section class="brand">
-        <div class="house">⌂</div>
-        <div>
-          <div class="title">Hogan Home Hub</div>
-          <div class="subtitle">Family dashboard</div>
+
+      <section class="quick-status">
+        <div class="status-pill">
+          <span>Calendar</span>
+          <strong>Family View</strong>
         </div>
+        <div class="status-pill">
+          <span>Mode</span>
+          <strong>Home</strong>
+        </div>
+        <button id="settingsBtn" class="settings-btn" aria-label="Settings">⚙</button>
       </section>
-      <button class="settings-btn" id="settingsBtn" aria-label="Settings">⚙</button>
     </header>
 
-    <section class="grid">
-      <article class="card card-large" data-open="calendar">
-        <div class="card-head">
+    <section class="dashboard-grid">
+      <article class="card week-card" data-open="calendar">
+        <div class="card-title-row">
           <div>
-            <span class="eyebrow">Calendar</span>
-            <h2>Today</h2>
+            <span class="section-label">Google Calendar</span>
+            <h1>This Week</h1>
           </div>
-          <button class="edit-btn" data-edit="today">Edit</button>
+          <button class="small-action" data-edit="week">Edit</button>
         </div>
-        <ul id="todayList" class="list"></ul>
-        <div class="tap-hint">Tap card to open Google Calendar</div>
+        <div id="weekList" class="week-strip"></div>
       </article>
 
-      <article class="card card-large" data-open="calendar">
-        <div class="card-head">
+      <article class="card today-card" data-open="calendar">
+        <div class="card-title-row">
           <div>
-            <span class="eyebrow">Calendar</span>
-            <h2>This Week</h2>
+            <span class="section-label">Today</span>
+            <h2>Agenda</h2>
           </div>
-          <button class="edit-btn" data-edit="week">Edit</button>
+          <button class="small-action" data-edit="today">Edit</button>
         </div>
-        <div id="weekList" class="week"></div>
-        <div class="tap-hint">Tap card to open Google Calendar</div>
+        <ul id="todayList" class="agenda-list"></ul>
+        <div class="card-footer">Tap to open Google Calendar</div>
       </article>
 
-      <article class="card" data-open="ring">
-        <div class="card-head">
+      <article class="card lists-card" id="sharedListsCard">
+        <div class="card-title-row">
           <div>
-            <span class="eyebrow">Security</span>
-            <h2>Ring</h2>
-          </div>
-          <button class="edit-btn" data-edit="ring">Edit</button>
-        </div>
-        <div id="ringContent" class="ring-panel"></div>
-        <div class="tap-hint">Tap card to open Ring</div>
-      </article>
-
-      <article class="card card-wide" id="sharedListsCard">
-        <div class="card-head">
-          <div>
-            <span class="eyebrow">Google Keep</span>
+            <span class="section-label">Google Keep</span>
             <h2>Shared Lists</h2>
           </div>
-          <button class="edit-btn" data-edit="keepLists">Edit</button>
+          <button class="small-action" data-edit="keepLists">Edit</button>
         </div>
-        <div id="keepListButtons" class="keep-list-buttons"></div>
-        <div class="tap-hint">Tap a list to open Google Keep</div>
+        <div id="keepListButtons" class="keep-grid"></div>
+        <div class="card-footer">Tap a list to open Keep</div>
       </article>
 
-      <article class="card" data-open="smartthings">
-        <div class="card-head">
-          <div>
-            <span class="eyebrow">Smart Home</span>
-            <h2>SmartThings</h2>
-          </div>
-          <button class="edit-btn" data-edit="smartthings">Edit</button>
-        </div>
-        <div id="smartthingsContent" class="smartthings-mini"></div>
-        <div class="tap-hint">Tap card to open SmartThings</div>
+      <article class="card control-card ring" data-open="ring">
+        <div class="app-badge">🔔</div>
+        <span class="section-label">Security</span>
+        <h2>Ring</h2>
+        <div id="ringContent" class="control-list"></div>
+        <div class="card-footer">Tap to open Ring</div>
       </article>
 
-      <article class="card" data-open="home">
-        <div class="card-head">
-          <div>
-            <span class="eyebrow">Home Control</span>
-            <h2>Google Home</h2>
-          </div>
-          <button class="edit-btn" data-edit="home">Edit</button>
-        </div>
-        <div id="homeContent" class="home-controls"></div>
-        <div class="tap-hint">Tap card to open Google Home</div>
+      <article class="card control-card smartthings" data-open="smartthings">
+        <div class="app-badge">📱</div>
+        <span class="section-label">Smart Home</span>
+        <h2>SmartThings</h2>
+        <div id="smartthingsContent" class="control-list"></div>
+        <div class="card-footer">Tap to open SmartThings</div>
+      </article>
+
+      <article class="card control-card google-home" data-open="home">
+        <div class="app-badge">🏠</div>
+        <span class="section-label">Home Control</span>
+        <h2>Google Home</h2>
+        <div id="homeContent" class="control-list"></div>
+        <div class="card-footer">Tap to open Google Home</div>
       </article>
     </section>
   </main>
@@ -104,7 +96,7 @@
         <h3 id="editorTitle">Edit</h3>
         <button class="icon-btn" value="cancel">✕</button>
       </div>
-      <p class="modal-help">For Shared Lists, use: emoji | list title | Google Keep link. One list per line.</p>
+      <p class="modal-help">For Shared Lists, use: emoji | list title | Google Keep link. One item per line.</p>
       <textarea id="editorText"></textarea>
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
@@ -116,15 +108,18 @@
   <dialog id="settings" class="modal">
     <form method="dialog" class="modal-card">
       <div class="modal-head">
-        <h3>App Links</h3>
+        <h3>Dashboard Links</h3>
         <button class="icon-btn" value="cancel">✕</button>
       </div>
-      <p class="modal-help">Optional: paste app links or web links. Ring, SmartThings, and Google Home are set to open their Android apps by default.</p>
+      <p class="modal-help">These can be app intent links or web links. The defaults are set to open the Android apps where possible.</p>
+
       <label>Google Calendar URL<input id="linkCalendar" /></label>
+      <label>Google Calendar iCal URL for live events<input id="calendarIcsUrl" placeholder="Paste Secret address in iCal format here" /></label>
       <label>Default Google Keep URL<input id="linkGrocery" /></label>
       <label>Ring URL<input id="linkRing" /></label>
       <label>SmartThings URL<input id="linkSmartthings" /></label>
       <label>Google Home URL<input id="linkHome" /></label>
+
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
         <button id="saveSettings" value="default" class="primary">Save Links</button>
