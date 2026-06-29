@@ -531,3 +531,107 @@ input {
 #homeContent.home-controls {
   grid-template-columns: repeat(2, 1fr);
 }
+
+
+/* v10 layout */
+.grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1.12fr .95fr .78fr;
+}
+
+.grid > article:nth-child(2) { grid-column: 1 / 4; grid-row: 1 / 2; } /* This Week */
+.grid > article:nth-child(1) { grid-column: 1 / 2; grid-row: 2 / 3; } /* Today */
+.grid > article:nth-child(4) { grid-column: 2 / 4; grid-row: 2 / 3; } /* Shared Lists */
+.grid > article:nth-child(3) { grid-column: 1 / 2; grid-row: 3 / 4; } /* Ring */
+.grid > article:nth-child(5) { grid-column: 2 / 3; grid-row: 3 / 4; } /* SmartThings */
+.grid > article:nth-child(6) { grid-column: 3 / 4; grid-row: 3 / 4; } /* Google Home */
+
+.shared-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  height: calc(100% - 70px);
+}
+
+.shared-lists section {
+  min-width: 0;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+  overflow: hidden;
+}
+
+.shared-lists h3 {
+  margin: 0 0 12px;
+  font-size: clamp(20px, 1.7vw, 28px);
+  color: var(--accent2);
+  letter-spacing: -0.03em;
+}
+
+.shared-lists .check-list {
+  gap: 8px;
+  font-size: clamp(18px, 1.55vw, 24px);
+}
+
+.grid > article:nth-child(3),
+.grid > article:nth-child(5),
+.grid > article:nth-child(6) {
+  min-height: 0;
+}
+
+.grid > article:nth-child(6) #homeContent.home-controls,
+.grid > article:nth-child(5) .smartthings-mini {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid > article:nth-child(3) .ring-panel {
+  font-size: clamp(18px, 1.5vw, 24px);
+}
+
+
+/* v11 Google Keep list launcher */
+.keep-list-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  height: calc(100% - 72px);
+  align-content: start;
+}
+
+.keep-list-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.075);
+  color: var(--text);
+  text-decoration: none;
+  font-size: clamp(19px, 1.55vw, 26px);
+  font-weight: 800;
+  overflow: hidden;
+}
+
+.keep-list-button:active {
+  transform: scale(.99);
+}
+
+.keep-list-icon {
+  font-size: 1.15em;
+  flex: 0 0 auto;
+}
+
+.keep-list-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keep-list-empty {
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1.35;
+}

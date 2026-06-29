@@ -24,6 +24,11 @@ const DEFAULT_DATA = {
     "Bread",
     "Fruit"
   ],
+  todo: [
+    "Return library books",
+    "Schedule dentist",
+    "Water plants"
+  ],
   smartthings: [
     "💡 | Lights | Controls",
     "🌡️ | Thermostat | Temp",
@@ -37,6 +42,10 @@ const DEFAULT_DATA = {
     "Routines",
     "Thermostat"
   ],
+  csv: {
+    grocery: "",
+    todo: ""
+  },
   links: {
     calendar: "https://calendar.google.com/calendar/u/0/r",
     keepGrocery: "https://keep.google.com/",
@@ -92,7 +101,7 @@ function render() {
   renderToday();
   renderWeek();
   renderRing();
-  renderChecklist("groceryList", data.grocery);
+  renderKeepLists();
   renderSmartThings();
   renderHome();
 }
@@ -137,6 +146,32 @@ function renderWeek() {
     `;
     box.appendChild(div);
   }
+}
+
+
+function renderKeepLists() {
+  const box = document.getElementById("keepListButtons");
+  if (!box) return;
+  box.innerHTML = "";
+  const lists = data.keepLists || [];
+  if (!lists.length) {
+    box.innerHTML = `<div class="keep-list-empty">Tap Edit to add your Google Keep list titles and links.</div>`;
+    return;
+  }
+
+  lists.slice(0, 8).forEach(item => {
+    const [icon = "📝", title = "Keep List", url = data.links.keepGrocery || "https://keep.google.com/"] =
+      item.split("|").map(x => x.trim());
+    const a = document.createElement("a");
+    a.className = "keep-list-button";
+    a.href = url || data.links.keepGrocery || "https://keep.google.com/";
+    a.innerHTML = `
+      <span class="keep-list-icon">${escapeHtml(icon)}</span>
+      <span class="keep-list-title">${escapeHtml(title)}</span>
+    `;
+    a.addEventListener("click", event => event.stopPropagation());
+    box.appendChild(a);
+  });
 }
 
 function renderChecklist(id, items) {
@@ -203,6 +238,7 @@ document.querySelectorAll(".edit-btn").forEach(btn => {
       week: "Edit This Week",
       ring: "Edit Ring Card",
       grocery: "Edit Grocery List",
+      keepLists: "Edit Shared Lists",
       smartthings: "Edit SmartThings",
       home: "Edit Google Home"
     };
@@ -227,6 +263,7 @@ document.getElementById("saveEdit").addEventListener("click", event => {
 document.getElementById("settingsBtn").addEventListener("click", () => {
   document.getElementById("linkCalendar").value = data.links.calendar || "";
   document.getElementById("linkGrocery").value = data.links.keepGrocery || "";
+
   document.getElementById("linkRing").value = data.links.ring || "";
   document.getElementById("linkSmartthings").value = data.links.smartthings || "";
   document.getElementById("linkHome").value = data.links.home || "";
@@ -237,12 +274,14 @@ document.getElementById("saveSettings").addEventListener("click", event => {
   event.preventDefault();
   data.links.calendar = document.getElementById("linkCalendar").value.trim();
   data.links.keepGrocery = document.getElementById("linkGrocery").value.trim();
+
   data.links.ring = document.getElementById("linkRing").value.trim();
   data.links.smartthings = document.getElementById("linkSmartthings").value.trim();
   data.links.home = document.getElementById("linkHome").value.trim();
   saveData();
   document.getElementById("settings").close();
 });
+
 
 updateClock();
 setInterval(updateClock, 1000 * 15);

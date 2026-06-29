@@ -60,16 +60,16 @@
         <div class="tap-hint">Tap card to open Ring</div>
       </article>
 
-      <article class="card" data-open="keepGrocery">
+      <article class="card card-wide" id="sharedListsCard">
         <div class="card-head">
           <div>
-            <span class="eyebrow">Shared List</span>
-            <h2>Grocery List</h2>
+            <span class="eyebrow">Google Keep</span>
+            <h2>Shared Lists</h2>
           </div>
-          <button class="edit-btn" data-edit="grocery">Edit</button>
+          <button class="edit-btn" data-edit="keepLists">Edit</button>
         </div>
-        <ul id="groceryList" class="check-list"></ul>
-        <div class="tap-hint">Tap card to open Google Keep</div>
+        <div id="keepListButtons" class="keep-list-buttons"></div>
+        <div class="tap-hint">Tap a list to open Google Keep</div>
       </article>
 
       <article class="card" data-open="smartthings">
@@ -104,7 +104,7 @@
         <h3 id="editorTitle">Edit</h3>
         <button class="icon-btn" value="cancel">✕</button>
       </div>
-      <p class="modal-help">One item per line. Changes save on this tablet/dashboard.</p>
+      <p class="modal-help">For Shared Lists, use: emoji | list title | Google Keep link. One list per line.</p>
       <textarea id="editorText"></textarea>
       <div class="modal-actions">
         <button value="cancel" class="secondary">Cancel</button>
@@ -121,7 +121,7 @@
       </div>
       <p class="modal-help">Optional: paste your exact Google Calendar, Keep note, or Google Home web links here.</p>
       <label>Google Calendar URL<input id="linkCalendar" /></label>
-      <label>Grocery Keep URL<input id="linkGrocery" /></label>
+      <label>Default Google Keep URL<input id="linkGrocery" /></label>
       <label>Ring URL<input id="linkRing" /></label>
       <label>SmartThings URL<input id="linkSmartthings" /></label>
       <label>Google Home URL<input id="linkHome" /></label>

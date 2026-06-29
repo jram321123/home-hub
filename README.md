@@ -1,3 +1,3 @@
-# Home Hub v9
+# Home Hub v11
 
-Moves the This Week calendar to the top and spans it across the full width. Moves app cards into the middle/lower sections.
+Shared Lists now works as a Google Keep list launcher. Add list titles and Keep links in the Edit button using: emoji | title | link.
