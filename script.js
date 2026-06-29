@@ -104,6 +104,7 @@ function buildCalendarEmbedUrl(raw, mode) {
     url.searchParams.set("showTabs", "0");
     url.searchParams.set("showCalendars", "0");
     url.searchParams.set("showTz", "0");
+    url.searchParams.set("showDate", "0");
     url.searchParams.set("wkst", "1");
     url.searchParams.set("bgcolor", "#111111");
     return url.toString();
@@ -142,31 +143,45 @@ function openApp(appKey) {
   const pkg = data.packages[appKey];
   const fallback = data.fallbacks[appKey];
 
-  // Fully Kiosk JavaScript interface. This is the most reliable method inside Fully.
+  // Fully Kiosk's documented JavaScript interface uses Android.openApplication(packageName).
+  // This is the most reliable way to launch installed Android apps from Fully Kiosk.
+  try {
+    if (window.Android && pkg && typeof Android.openApplication === "function") {
+      Android.openApplication(pkg);
+      return;
+    }
+  } catch (e) {
+    console.log("Android.openApplication failed", e);
+  }
+
+  // Some other kiosk/browser variants expose fully.startApplication.
   try {
     if (window.fully && pkg && typeof fully.startApplication === "function") {
       fully.startApplication(pkg);
       return;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.log("fully.startApplication failed", e);
+  }
 
-  // Some Fully versions expose the Android interface differently.
   try {
     if (window.fully && pkg && typeof fully.startApplicationByPackageName === "function") {
       fully.startApplicationByPackageName(pkg);
       return;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.log("fully.startApplicationByPackageName failed", e);
+  }
 
-  // Android intent fallback.
+  // Android app intent fallback. If the app cannot be opened by the browser, use the web fallback.
   if (pkg) {
     try {
-      window.location.href = `intent://#Intent;package=${pkg};end`;
-      setTimeout(() => {
-        if (fallback) window.location.href = fallback;
-      }, 700);
+      const fallbackEncoded = encodeURIComponent(fallback || "");
+      window.location.href = `intent://#Intent;package=${pkg};S.browser_fallback_url=${fallbackEncoded};end`;
       return;
-    } catch (e) {}
+    } catch (e) {
+      console.log("intent fallback failed", e);
+    }
   }
 
   if (fallback) window.location.href = fallback;

@@ -352,3 +352,53 @@ input {
     font-weight: 800;
   }
 }
+
+
+/* v41 calendar fit improvements */
+.dashboard-grid {
+  grid-template-rows: 1.38fr .86fr .72fr;
+}
+
+.week-card {
+  padding: 14px 16px 12px;
+}
+
+.week-card .card-title-row {
+  margin-bottom: 8px;
+}
+
+.week-card h1 {
+  font-size: clamp(22px, 2.1vw, 34px);
+}
+
+.week-card .section-label {
+  font-size: 11px;
+}
+
+.calendar-embed-container {
+  height: calc(100% - 44px);
+  border-radius: 20px;
+}
+
+.gcal-frame {
+  transform: scale(.82);
+  transform-origin: top left;
+  width: 122%;
+  height: 122%;
+  border-radius: 20px;
+}
+
+/* Keep today agenda readable after giving more height to the week calendar */
+.today-card h2,
+.lists-card h2,
+.control-card h2 {
+  font-size: clamp(22px, 2vw, 32px);
+}
+
+.today-embed-container {
+  height: calc(100% - 58px);
+}
+
+.card-footer {
+  bottom: 9px;
+}

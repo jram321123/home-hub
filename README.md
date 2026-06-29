@@ -1,33 +1,14 @@
-# Hogan Home Hub v40
+# Home Hub v41
 
-This version includes all requested current features:
+Makes the top Google Calendar section taller and scales the embedded calendar down so event line items are visible under each day.
 
-- Premium dark dashboard
-- Actual Google Calendar display via Google Calendar embed
-- Today agenda via Google Calendar agenda embed
-- Google Keep shared list launcher
-- Ring app launcher
-- SmartThings app launcher
-- Google Home app launcher
-- Fully Kiosk JavaScript app launch support first, Android intent fallback second
 
-## Fully Kiosk settings needed
+## v42 App Launch Fix
+This version uses Fully Kiosk's documented JavaScript interface:
+`Android.openApplication(packageName)`
 
-Turn on:
-- Web Content Settings -> Enable JavaScript
-- Web Content Settings -> JavaScript Interface
-- Web Content Settings -> Open Other URL Schemes
-
-If available, also allow:
-- Launch Apps / Start Other Apps
-
-## Calendar setup
-
-Tap the gear and paste your Google Calendar embed URL or full iframe embed code.
-
-## Shared Lists format
-
-emoji | list title | Google Keep link
-
-Example:
-🛒 | Grocery List | https://keep.google.com/
+Required Fully settings:
+- Enable JavaScript
+- Enable JavaScript Interface
+- Allow launching/opening other apps if prompted
+- Open Other URL Schemes can stay on as a fallback
